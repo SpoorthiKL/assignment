@@ -64,17 +64,21 @@ pipeline {
             }
         }
 
-       stage('Push to ECR') {
+    stage('Push to ECR') {
     steps {
-        script {
+        withCredentials([
+            string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+            string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+        ]) {
             sh """
                 export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
                 export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
                 export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-                
-                sudo docker tag $IMAGE_NAME ${ECR_REPO}:${params.ENV}
-                
-                aws ecr-public get-login-password --region $AWS_DEFAULT_REGION | \
+
+                aws sts get-caller-identity
+
+                sudo docker tag ${IMAGE_NAME} ${ECR_REPO}:${params.ENV}
+                aws ecr-public get-login-password --region ${AWS_DEFAULT_REGION} | \
                 docker login --username AWS --password-stdin public.ecr.aws
 
                 sudo docker push ${ECR_REPO}:${params.ENV}
@@ -82,6 +86,7 @@ pipeline {
         }
     }
 }
+
 
 
         stage('Deploy on Slave Node') {
