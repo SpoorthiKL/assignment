@@ -21,22 +21,24 @@ pipeline {
     stages {
 		
 		stage('Install AWS CLI') {
-            steps {
-                script {
-                    sh '''
-                        set -e
-                        echo "Installing AWS CLI..."
-                        sudo yum install -y unzip curl
+    steps {
+        script {
+            sh '''
+                set -e
+                echo "Installing AWS CLI..."
+                sudo apt update
+                sudo apt install -y unzip curl
 
-                        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-                        rm -rf aws
-                        unzip -q awscliv2.zip
-                        sudo ./aws/install --update
-                        aws --version
-                    '''
-                }
-            }
+                curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                rm -rf aws
+                unzip -q awscliv2.zip
+                sudo ./aws/install --update
+                aws --version
+            '''
         }
+    }
+}
+
 		
         stage('Clone Repo') {
             steps {
