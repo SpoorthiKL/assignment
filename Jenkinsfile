@@ -86,7 +86,11 @@ pipeline {
         }
     }
 }
+   stage('')
+     steps{
+	     sh 'aws sts get-caller-identity'
 
+     }
 
 
         stage('Deploy on Slave Node') {
