@@ -10,7 +10,7 @@ pipeline {
         ECR_REPO_NAME = 'ecr'
         IMAGE_NAME = "my-nginx-app:${params.ENV}"
 		imageTag = "${ECR_REPO}:${params.ENV}"
-        ECR_REPO = "public.ecr.aws/f9j3e3x1/ecr"
+        ECR_REPO = "public.ecr.aws/h0n6v7u5/jenecr"
         CONTAINER_PORT = "80"
 		
 		AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
