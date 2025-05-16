@@ -12,7 +12,7 @@ pipeline {
     }
 
     stages {
-        stage('Install AWS CLI') {
+        stage('AWS CLI Installation') {
             steps {
                 sh '''
                     set -e
@@ -28,13 +28,13 @@ pipeline {
             }
         }
 
-        stage('Clone Repo') {
+        stage('Cloning the Repository') {
             steps {
                 git url: "${GIT_REPO}", branch: 'main'
             }
         }
 
-        stage('Test Dockerfile') {
+        stage('Dockerfile Testing') {
             steps {
                 script {
                     def imageName = "my-nginx-app:${params.ENV}"
@@ -55,7 +55,7 @@ pipeline {
             }
         }
 
-        stage('Push to ECR') {
+        stage('Pushing the docker image to ECR') {
             steps {
                 withCredentials([
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
@@ -89,7 +89,7 @@ pipeline {
             }
         }
 
-        stage('Deploy on Slave Node') {
+        stage('Deploying on Slave Node') {
             steps {
                 script {
                     def imageTag = "${ECR_REPO}:${params.ENV}"
@@ -106,10 +106,10 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline executed successfully"
+            echo "Pipeline is sucessful with image being pushed to ECR"
         }
         failure {
-            echo "Pipeline failed"
+            echo "Pipeline is failing"
         }
     }
 }
