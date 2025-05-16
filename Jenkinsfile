@@ -89,7 +89,7 @@ pipeline {
             }
         }
 
-        stage('Deploying on Slave Node') {
+        stage('Deploying on jenkins agent Slave') {
             steps {
                 script {
                     def imageTag = "${ECR_REPO}:${params.ENV}"
