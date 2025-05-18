@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        GIT_REPO = 'https://github.com/snehakp0403/docker_nginx.git'
+        GIT_REPO = 'https://github.com/SpoorthiKL/assignment.git'
         ECR_REPO = "public.ecr.aws/h0n6v7u5/jenecr"
         CONTAINER_PORT = "80"
     }
